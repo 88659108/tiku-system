@@ -1,7 +1,7 @@
 # tiku-system
 在线题库 -- 申请试卷，作答，阅卷，智能统计，技能强弱分析..
 
-# 在线示例
+# <a href="http://www.zoobao.com/index.php/paper/index/paperlist" target="_blank">在线示例</a>
 
 # 核心代码
 重构后js：tiku-system/Public/js/paper1/
