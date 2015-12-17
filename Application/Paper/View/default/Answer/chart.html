@@ -1,0 +1,469 @@
+<extend name="Home@Common:main-page" />
+<block name="page-title">{$upinfo.title} - {$Think.config.PAGE_TITLE}</block>
+
+<block name="page-header">
+<css href="__CSS__answer.css" />
+
+<style>
+.js-question-module{ display:none; }
+</style>
+</block>
+
+<block name="page-body">
+<div id="wrip">
+  <div class="answer-top white-block">
+    <h1>{$upinfo.title}</h1>
+    <p class="title">交卷时间：<span>{$upinfo.subtime|date="Y-m-d H:i",###}</span>&nbsp;&nbsp;&nbsp;&nbsp;申请时间：<span>{$upinfo.addtime|date="Y-m-d H:i",###}</span></p>
+  </div>
+  <div class="left answer-left">
+    <div class="">
+      <div class="subtopics-block white-block">
+        <div class="topic-title b-user-block">
+          <dl class="b-user left">
+            <dt class=""><img src="__IMG__{$userinfo.image}" /></dt>
+            <dd>
+              <h2>{$userinfo.username}</h2>
+            </dd>
+            <dd><span class="name">本卷得分</span><span class="schedule"><a class="red sc-color" style="width:{$upinfo.score}%;"></a></span><strong>{$upinfo.score}分</strong></dd>
+            <dd><span class="name">全网平均</span><span class="schedule"><a class="green sc-color" style="width:{$pinfo.avescore}%;"></a></span><strong>{$pinfo.avescore}分</strong></dd>
+            <dd><span class="name">最高得分</span><span class="schedule"><a class="blue sc-color" style="width:{$pinfo.topscore}%;"></a></span><strong>{$pinfo.topscore}分</strong></dd>
+          </dl>
+          <div class="b-score right"><span class="b-score">{$upinfo.score}<span class="text">分</span></span>
+            <p class="text">已击败同类考生<strong>{$upinfo.ranking}</strong>%</p>
+          </div>
+          <div class="b-share"><!-- Baidu Button BEGIN -->
+            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare"> <span class="bds_more">分享到：</span> <a class="bds_qzone"></a> <a class="bds_tsina"></a> <a class="bds_tqq"></a> <a class="bds_renren"></a> <a class="bds_t163"></a> <a class="shareCount"></a> </div>
+            <script type="text/javascript" id="bdshare_js" data="type=tools&uid=636341" ></script> 
+            <script type="text/javascript" id="bdshell_js"></script> 
+            <script type="text/javascript">
+document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script> 
+            <!-- Baidu Button END --></div>
+        </div>
+        
+        
+        <div class="b-chart-block b-border-block">
+          <div class="b-chart-title">
+            <h3 class="b-title left">失分/得分情况</h3>
+            <div class="b-sm-chart right"><!--span class="text">失分：<a class="img-c" style="background:#da5d65;"></a></span><span class="text">用时：<a class="img-c" style="background:#3ea1bd;"></a></span--></div>
+          </div>
+          <div class="b-chart-conter" id="js-socre-module"></div>
+        </div>
+        
+        <div class="b-chart-block b-border-block">
+          <div class="b-chart-title">
+          <h3 class="b-title left">正确率/用时分布</h3>
+            <div class="b-sm-chart right"><!--span class="text">失分：<a class="img-c" style="background:#da5d65;"></a></span><span class="text">用时：<a class="img-c" style="background:#3ea1bd;"></a></span--></div>
+          </div>
+          <div class="b-chart-conter" id="js-time-module"></div>
+        </div>
+        
+        <div class="b-chart-block b-border-block">
+          <div class="b-chart-title">
+          <h3 class="b-title left">学习进步(成绩走势对比图)</h3>
+            <div class="b-sm-chart right"><!--span class="text">失分：<a class="img-c" style="background:#da5d65;"></a></span><span class="text">用时：<a class="img-c" style="background:#3ea1bd;"></a></span--></div>
+          </div>
+          <div class="b-chart-conter" id="js-score-list-module"></div>
+        </div>
+        
+        
+        
+        
+        <div class="b-chart-block b-border-block">
+          <div class="b-chart-title">
+            <h3 class="b-title left">知识点(详细分析)</h3>
+          </div>
+          <div class="b-table">
+            <table width="100%" border="0" class="table-line">
+              <thead>
+                <tr>
+                  <td style="width:230px">考点</td>
+                  <td style="width:60px">答对</td>
+                  <td style="width:60px">总题数</td>
+                  <td style="width:220px">正确率</td>
+                  <td style="width:120px">练习时长</td>
+                </tr>
+              </thead>
+              <tbody>
+              
+              <volist name="clslist" id="cls">
+                <tr>
+                  <td class="text-left"><span class="title js-btn-show-list" data-list="{$cls.id}"><span class="img js-btn-ico open-icon"></span>{$cls.title}</span></td>
+                  <td>{$cls.isok}</td>
+                  <td>{$cls.qnums}</td>
+                  <td class="sch-left"><span class="schedule"><a class="<if condition="$cls.accuracy elt 25">red</if><if condition="($cls.accuracy gt 25) AND ($cls.accuracy lt 55)">orange</if><if condition="$cls.accuracy egt 55">green</if> sc-color" style="width:{$cls.accuracy}%;"></a></span><strong>{$cls.accuracy}%</strong></td>
+                  <td class="js-time-flt" usetime="{$cls.usetime}">00分00秒</td>
+                </tr>
+                <volist name="cls['list']" id="clss">
+                <tr class="son-list-{$cls.id}" style="display:none;">
+                  <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;<span class="title js-btn-show-list" data-list="{$clss.id}"><span class="img  js-btn-ico open-icon" close></span>{$clss.title}</span></td>
+                  <td>{$clss.isok}</td>
+                  <td>{$clss.qnums}</td>
+                  <td class="sch-left"><span class="schedule"><a class="<if condition="$clss.accuracy elt 25">red</if><if condition="($clss.accuracy gt 25) AND ($clss.accuracy lt 55)">orange</if><if condition="$clss.accuracy egt 55">green</if> sc-color" style="width:{$clss.accuracy}%;"></a></span><strong>{$clss.accuracy}%</strong></td>
+                  <td class="js-time-flt" usetime="{$clss.usetime}">00分00秒</td>
+                </tr>
+                <volist name="clss['list']" id="clsss">
+                
+                <tr class="son-list-{$clss.id} son-son-{$cls.id}" style="display:none;">
+                  <td class="text-left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$clsss.title}</td>
+                  <td>{$clsss.isok}</td>
+                  <td>{$clsss.qnums}</td>
+                  <td class="sch-left"><span class="schedule"><a class="<if condition="$clsss.accuracy elt 25">red</if><if condition="($clsss.accuracy gt 25) AND ($clsss.accuracy lt 55)">orange</if><if condition="$clsss.accuracy egt 55">green</if> sc-color" style="width:{$clsss.accuracy}%;"></a></span><strong>{$clsss.accuracy}%</strong></td>
+                  <td class="js-time-flt" usetime="{$clsss.usetime}">00分00秒</td>
+                </tr>
+                </volist>
+                </volist> 
+                
+               </volist> 
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        
+        
+        <div class="b-dtk-block b-border-block">
+          <div class="b-chart-title">
+            <h3 class="b-title left">答题卡</h3>
+            
+          </div>
+          
+          <volist name="navs" id="nav" key="i">
+          <div class="dtk-conter b-dtk">
+            <h4>{$nav.title}：<span class="text"><strong>作答{$nav.speed|default="0"}道</strong> / 共{$nav.nums}道</span></h4>
+            
+            <volist name="nav['item']" id="qt" key="q">
+            
+            <if condition="$qt.son eq 0">
+            <a class="img link <if condition="$q%10 eq 0">margin-r</if> <if condition="$qt.check eq 0">current</if> <if condition="$qt.check eq 1">green</if> <if condition="$qt.check eq -1">red</if>" href="#!">{$q}</a>
+            <else />
+            <volist name="qt['sonlist']" id="son" key="s">
+            <a class="img link <if condition="$s%$qt.son eq 0">margin-r</if> <if condition="$son.check eq 0">current</if> <if condition="$son.check eq 1">green</if> <if condition="$son.check eq -1">red</if>" href="#!">{$s}</a>
+            </volist>
+            </if>
+            </volist>
+            
+            </div>
+          </volist> 
+           
+            
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right fun-right white-block report-right">
+    <div class="report-block"><span class="img report-img"></span>
+    </div>
+    <a class="default-btn anser-btn green-btn" href="#!">查看报告</a><a class="default-btn anser-btn" href="/index.php/Paper/Answer/Index?paperid={$upinfo.id}&getinfo=5">查看解析</a><a class="default-btn anser-btn" href="#!">疑问讨论</a></div>
+</div>
+
+</block>
+
+<block name="page-footer">
+
+<!-- page lib -->
+<js href="__JS__lib/json2.js" />
+<js href="__JS__lib/highcharts.4.0.4.js" />
+
+
+
+<!-- system lib -->
+<js href="__JS__common/zoobao.1.0.js" />
+<js href="__JS__common/zoobao.utils.1.0.js" />
+
+
+<script type="text/javascript">
+
+
+$(function () {
+	
+	
+	//
+	$('.js-btn-show-list').click(function(){
+	
+		var _itemid	= $(this).attr('data-list');
+		var _class	= $('.son-list-' + _itemid);
+		var _clsss1	= $('.son-son-' + _itemid);
+		
+		var _btnico = $(this).find('.js-btn-ico');
+		if(_btnico.hasClass('close-icon')){
+			_btnico.removeClass('close-icon').addClass('open-icon');
+			_class.hide();
+			_class.find('.js-btn-ico').removeClass('close-icon').addClass('open-icon');
+			_clsss1.hide();
+			
+		}else{
+			_btnico.removeClass('open-icon').addClass('close-icon');
+			_class.show();
+			
+		}
+	});
+	
+	//格式化时间
+	$('.js-time-flt').each(function(index, element) {
+        var _usetime	= $(this).attr('usetime');
+		
+		$(this).html(Zbo.utils.tools.timeFormat(Number(_usetime), 'mm分ss秒'));
+    });
+	
+	
+    $('#js-socre-module').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: false//'失分情况'
+        },
+        xAxis: {
+            categories: [{$chart.navs}]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: false//'失分情况'
+            },
+            stackLabels: {
+                enabled: true,
+                style: {
+                    fontWeight: 'bold',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                }
+            }
+        },
+        legend: {
+            align: 'right',
+            x: 0,
+            verticalAlign: 'top',
+            y: -10,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+            borderColor: '#CCC',
+            borderWidth: 1,
+            shadow: false
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.x + '</b><br/>' +
+                    this.series.name + ': ' + this.y
+            }
+        },
+        plotOptions: {
+            column: {
+                stacking: 'normal',
+                dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black, 0 0 3px black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: '答案错误失分',
+            data: [{$chart.err}]
+			//,color: '#F00'
+        },{
+            name: '未作答失分',
+            data: [{$chart.null}]
+			//,color: '#CCC'
+        },{
+            name: '得分',
+            data: [{$chart.score}]
+			//,color: '#537512'
+        }]
+    });
+});
+
+
+
+$(function () {
+    $('#js-time-module').highcharts({
+        chart: {
+            zoomType: 'column'
+        },
+        title: {
+            text: false
+        },
+        subtitle: {
+            text: false
+        },
+        xAxis: [{
+            categories: [{$chart.navs}]
+        }],
+        yAxis: [{
+			min: 0, 
+            labels: {
+                format: '',
+                style: {
+                    color: '#Ff0'//Highcharts.getOptions().colors[5]
+                },
+				enabled:false
+				
+            },
+            title: {
+                text: false,
+                style: {
+                    color: '#Ff0'//color: Highcharts.getOptions().colors[5]
+                }
+				
+            }
+        }, {
+			min: 0,
+			max: 100, 
+			//gridLineWidth: 0,
+            title: {
+                text: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+            labels: {
+                format: '',
+                style: {
+                    color: Highcharts.getOptions().colors[0]
+                }
+            },
+			
+            opposite: false
+			
+        }],
+        tooltip: {
+            shared: true,
+		
+			//格式化
+			formatter  : function(){
+				
+				var content = '<span style="font-size: 12px;">' + this.x + '</span><br/>';
+				
+				for (var i = 0; i < this.points.length; i++) {
+					if(this.points[i].series.name == '作答用时'){
+						this.points[i].y = Zbo.utils.tools.timeFormat(Number(this.points[i].y), 'mm分ss秒');
+					}else{
+						this.points[i].y = this.points[i].y + ' %';
+					}
+					content += '<span style="color: ' + this.points[i].series.color + '">● </span><span style="color:#333;">' + this.points[i].series.name + '</span>: <span style="color:#000;font-weight:bold;">' + this.points[i].y + '</span><br />';
+				};
+				
+				return content;
+			}
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            x: -40,
+            verticalAlign: 'top',
+            y: -15,
+            floating: true,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        series: [{
+            name: '正确率',
+            type: 'column',
+            yAxis: 1,
+            data: [{$chart.accy}],
+            tooltip: {
+                valueSuffix: ' '
+            }
+
+        }, {
+            name: '作答用时',
+            type: 'spline',
+            //data: [4000,1256,2356,1256,1965],
+			data:[{$chart.time}],
+            tooltip: {
+                valueSuffix: ' '
+			},
+			color: '#F00'
+        }]
+		 
+    });
+});
+
+
+$(function () {
+    $('#js-score-list-module').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: false//'Monthly Average Temperature'
+        },
+        subtitle: {
+            text: false//'Source: WorldClimate.com'
+        },
+        xAxis: {
+			min: 1,
+			max: 10
+            //categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: false//'Temperature (°C)'
+            },
+			min: 0,
+			max: 100
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: true
+            }
+        },
+		
+		tooltip: {
+            shared: true,
+		
+			//格式化
+			formatter  : function(){
+				
+				var content = '<span style="font-size: 12px; text-align:center;">最近学习(第<span style="color:#000;font-weight:bold;"> ' + this.x + ' </span>张卷)</span><br/><br/>';
+				
+				for (var i = 0; i < this.points.length; i++) {
+					content += '<span style="color: ' + this.points[i].series.color + '">● </span><span style="color:#333;">' + this.points[i].series.name + '</span>: <span style="color:#000;font-weight:bold;">' + this.points[i].y + ' 分</span><br />';
+				};
+				
+				return content;
+			}
+        },
+        series: [{
+            name: '我的成绩',
+            data: [0, 53, 64, 75, 64, 76, 64, 78, 76, 82, 88]
+        }, {
+            name: '平均成绩',
+            data: [0, 48, 62, 72, 68, 64, 72, 74, 72, 78, 82]
+        }, {
+            name: '其他用户',
+            data: [0, 72, 74, 72, 68, 72, 78, 82, 72, 78, 82]
+        }]
+		
+		/*series: [{
+            name: '我的成绩',
+            data: [{$chart.scorelist}]
+        }, {
+            name: '平均趋势',
+            data: [{$chart.avescore}]
+        }, {
+            name: '其他用户(本卷)',
+            data: [{$chart.userscore}]
+        }]*/
+    });
+});
+
+
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?497db2a22b54b711ea138cc0ed1d3c0a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</block>
+

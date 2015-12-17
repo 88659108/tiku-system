@@ -1,0 +1,120 @@
+<extend name="Home@Common:main-page" />
+<block name="page-title">{$upinfo.title} - {$Think.config.PAGE_TITLE}</block>
+<block name="page-header">
+<css href="__CSS__answer.css" />
+
+<style>
+.js-question-module{ display:none; }
+</style>
+</block>
+
+<block name="page-body">
+<div id="wrip">
+  <div class="answer-top white-block">
+    <h1 class="js-papertitle">{$upinfo.title}</h1>
+    <p class="title" style="display:none;">行政职业能力测验共有五个部分，135道题，总时限为120分钟。</p>
+    <div class="type-list">
+      <ul id="js-paper-navs" qcount="{$upinfo.qnums}">
+      	<volist name="navs" id="nav" key="i">
+        <li <eq name="i" value="1">class="current"</eq> key="{$nav.key}" usetime="{$nav.usetime}">{$nav.title} (<span class="dig js-nav-speed">{$nav.speed|default="0"}</span>/<span class="dig js-nav-nums">{$nav.nums}</span>)</li>
+        </volist>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="left answer-left">
+    
+    <volist name="navs" id="md" key="i">
+    <div class="js-question-module" <eq name="i" value="1">style="display:block;"</eq>>
+    
+    <div class="answer-loading js-loading-nav-box"><div class="loading-bg"><a class="green js-loading-press" style="width:0%;"></a></div><p style="height:1200px;" class="text">正在努力加载中...</p></div>
+    
+    
+    
+    
+    </div>
+    </volist>
+    
+  </div>
+  
+  <div class="dtk-block width-narrow">
+        <div class="title"><span class="title-text js-dtk-switch">展开答题卡(剩下 <strong id="js-paper-speed" fid="{$upinfo.paperid}" paperid="{$upinfo.id}" qnums="{$upinfo.qnums}">{$speed}</strong> 道题)&nbsp;<span class="js-dtk-ico">↑</span></span></div>
+        <div class="dtk-conter js-paper-icos" style="display:none;"></div>
+      </div>
+  
+  <div class="right fun-right white-block"><div class="time-block"><span class="img time-img"></span>
+  <p class="blod js-paper-usetime" totaltime="{$upinfo.totaltime}" usetime="{$upinfo.usetime}"></p></div>
+  <a class="default-btn anser-btn js-paper-time-pause" href="#!">暂停</a>
+  <a class="default-btn anser-btn js-paper-time-end" href="#!">下次再做</a>
+  <a class="default-btn green-btn anser-btn js-paper-submit" href="#!">交卷</a>
+  <a class="default-btn anser-btn js-paper-answer-save" href="#!">保存答案</a>
+  </div>
+</div>
+
+</block>
+
+
+<block name="page-footer">
+
+<!-- page lib -->
+<js href="__JS__lib/json2.js" />
+<js href="__JS__lib/arttemplate-3.0.js" />
+
+
+<!-- model-->
+<js href="__JS__paper1/paper.icos.1.0.js" />
+<js href="__JS__paper1/paper.time.1.0.js" />
+<js href="__JS__paper1/paper.navs.1.0.js" />
+<js href="__JS__paper1/paper.question.1.0.js" />
+
+
+<script type="text/javascript">
+
+;(function($, window, undefined){
+	
+	var _lib		= window.Zbo;
+	
+	//答卷主键
+	var paperid		= $('#js-paper-speed').attr('paperid');
+	
+	//配置信息: {试卷主键, 做题模式(0=做题模式, 1=解析模式)}
+	var config		= {paperid:paperid, pagetype:0};
+	
+	//初始化: 答题卡
+	_lib.icos.create(config);
+	
+	//初始化: 做题工具箱
+	_lib.time.create(config).start();
+	
+	//初始化: 试卷菜单栏
+	_lib.navs.create(config).start(0);
+	
+	//初始化: 试题管理器
+	_lib.question.create(config);
+	
+	
+})(window.jQuery, window);
+
+</script>
+
+
+
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?497db2a22b54b711ea138cc0ed1d3c0a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<include file="tp-question" />
+
+
+</block>

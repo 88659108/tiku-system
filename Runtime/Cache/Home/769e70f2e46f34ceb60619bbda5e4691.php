@@ -1,0 +1,27 @@
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>...</title>
+<meta property="qc:admins" content="042536777762772176375" />
+<meta property="wb:webmaster" content="9423d08b2ed4086c" />
+</head>
+
+<body>
+
+<h2>
+题库正在开发中， <a href="http://www.zoobao.com/index.php/Paper/Index/paperlist">行测训练请加入》》</a>
+</h2>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?497db2a22b54b711ea138cc0ed1d3c0a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+</html>

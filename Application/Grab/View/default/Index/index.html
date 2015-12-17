@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$info.title}</title>
+</head>
+
+<body>
+<h1 style="color:#F00;">试卷：{$info.title}</h1>
+<table width="80%" border="1" cellspacing="0" cellpadding="0">
+
+  <volist name="list['navs']" id="pp" key="k">
+  <tr>
+    <td width="11%">{$pp.title}({$pp.nums})</td>
+    <td width="89%">
+      
+      <volist name="list['item'][$pp['key']]" id="q">
+      
+      <if condition="$q.son gt 0 ">
+      
+      <h3 style="color:#F00;">资料({$q.qid})</h3><br />
+      <volist name="q['info']" id="qq" key="kk">
+            <table width="90%" border="1" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="4%" style="font-weight:bold; color:#F00;">({$kk})</td>
+          <td width="96%">{$qq.body}</td>
+        </tr>
+        <tr>
+          <td>{$qq.sourceid}</td>
+          <td>{$qq.options}</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>{$qq.description}</td>
+        </tr>
+      </table><br />
+      </volist>
+      
+      
+      
+      
+      <else />
+      <table width="90%" border="1" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="4%" style="font-weight:bold; color:#F00;">({$i})</td>
+          <td width="96%">{$q.info.body}</td>
+        </tr>
+        <tr>
+          <td>{$q.info.sourceid}</td>
+          <td>{$q.info.options}</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td>{$q.info.description}</td>
+        </tr>
+      </table>
+      </if>
+      
+      <br />
+      </volist>
+      
+     </td>
+  </tr>
+  </volist>
+  
+  
+</table>
+</body>
+</html>

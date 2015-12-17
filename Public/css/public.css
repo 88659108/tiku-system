@@ -1,0 +1,54 @@
+@charset "utf-8";
+
+.clearfix:after {visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;}
+.clearfix{*zoom:1;}
+
+body, div, ol, li, dl, dt ,dd ,ul ,h2,h1,h3,h4, form ,input,a{ margin:0; padding:0;}
+body{font-size:12px;color:#666;font-family:"宋体","Microsoft YaHei",Arial,'simson';background:#eeeeee;}
+h1, h2, h3, h4, h5, h6{margin:0;font-weight:normal;}
+h1{font-size:24px;font-family: "Microsoft YaHei",Arial,'simson'; }
+h2{font-size:22px;font-family: "Microsoft YaHei",Arial,'simson'; }
+h3{font-size:20px;font-family: "Microsoft YaHei",Arial,'simson'; }
+h4{font-size:18px;font-family: "Microsoft YaHei",Arial,'simson'; }
+h6{font-size:14px;}
+h5{font-size:16px;}
+ul ,ol ,li{ list-style:none;}
+a img { border:none; }
+a{text-decoration:none;color:#3377aa;}
+a:hover{color:#921f1f;}
+p{margin:0;}
+.left{float:left;}
+.right{float:right;}
+/*------文字颜色------*/
+.red{color:#c0382a;}
+.green{color:#537512;}
+/*-----文字状态-----*/
+
+/*****按钮公用*****/
+
+/*警告框*/
+
+/*表格*/
+table.FrameSkin {  position:relative;border-collapse: collapse;border-spacing: 0;border:none;padding: 0;border:none;margin:0 auto;}
+table.FrameSkin td,table.FrameSkin th{padding: 0;border:none;} 
+table.frameSkin-fixed{ clear:both;max-width:740px; position: fixed;left:50%;top:90px;margin-left:-350px; z-index:1002;}
+        /*全局表格线样式*/
+table.table-line{border-collapse:collapse;}  
+table.table-line td{border:1px solid #bfbfbf;}
+table.table-line th{border:1px solid #bfbfbf;font-weight:bold;}
+
+
+
+/*公用图片*/
+.img{background:url(../images/img.png) no-repeat;}
+
+/*按钮*/
+.default-btn{font-size:14px; font-weight:bold;color:#3e3e3e;background:#f6f6f6;border:1px solid #bfbfbf; text-align:center; display:inline-block;}
+.default-btn:hover{ background:#ededed;border:1px solid #b2b2b2;color:#2c2c2c;}
+	/*按钮颜色*/
+.green-btn{background:#31a170; border:1px solid #1a7a50; color:#fff;}
+.green-btn:hover{color:#fff;background:#37ac79; }
+
+/*弹框公用*/
+.div-bg{background:#000; position: fixed;width:100%;height:100%; left:0; top:0;opacity:0.5;filter:alpha(opacity=50); z-index:1000;}
+.public-box{border:6PX solid #000;background:#fff; position:fixed; left:50%; z-index:1006;top:90px;}

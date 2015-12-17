@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=<block name="page-charset">{$Think.config.PAGE_CHARSET}</block>">
+<title><block name="page-title">{$Think.config.PAGE_TITLE}</block></title>
+<meta name="keywords" content="<block name="page-keywords">{$Think.config.PAGE_KEYWORDS}</block>" />
+<meta name="description" content="<block name="page-description">{$Think.config.PAGE_DESCRIPTION}</block>" />
+<block name="page-meta">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome = 1">
+</block>
+<css href="__CSS__public.css" />
+<css href="__CSS__ui-dialog.css" /><block name="page-header"></block>
+</head>
+<body>
+<block name="page-body"></block>
+
+<!-- global  lib -->
+<js href="__JS__/lib/jquery-1.10.2.js" />
+<js href="__JS__/lib/dialog-6.0.4.js" />
+<js href="__JS__lib/store-1.3.17.js" />
+
+
+<!-- system lib -->
+<js href="__JS__common/zoobao.1.0.js" />
+<js href="__JS__common/zoobao.utils.1.0.js" />
+
+
+
+<block name="page-footer"></block>
+
+
+<block name="page-app-weixin">
+
+<!-- 代码 开始 -->
+<div id="moquu_wxin" class="moquu_wxin"><a href="javascript:void(0)">行测王题库<div class="moquu_wxinh"></div></a></div>
+<div id="moquu_wshare" class="moquu_wshare"><a href="javascript:void(0)">行测王题库<div class="moquu_wshareh"><div class="js-mobile-qrcode-imgbox"><img class="js-img-loading"  src="__IMG__loading.gif" /></div></div></a></div>
+<div id="moquu_wmaps"><a href="javascript:void(0)" class='moquu_wmaps'>行测王题库</a></div>
+<a id="moquu_top" href="javascript:void(0)"></a>
+<!-- 代码 结束 -->
+
+<css href="__CSS__app_weixin.css" />
+<js href="__JS__popwin.js" />
+<script>
+
+$('#moquu_wshare').mouseenter(function(){
+	
+	var _box	= $(this);
+	var _img	= _box.find('.js-mobile-qrcode-imgbox');
+	
+	var _loding = _img.find('.js-img-loading');
+	if(_loding.size() == 0) return false;
+	
+	//加载图片
+	var _url		= '/QRcode/Index';
+	
+	var _pars		= $('.js-dtk-switch');
+	var _upaperid	= (_pars.size() > 0) ? _pars.find('#js-paper-speed').attr('paperid') : 0;
+	var _papertitle	= $('title').text();
+	var _pageurl	= window.location.href;
+	Zbo.utils.ajax.post(_url, {upaperid:_upaperid, papertitle:_papertitle, pageurl:encodeURIComponent(_pageurl)}, function(json){
+		
+		var _imgsrc	= '<img class="js-qrcode-img" src="'+ json.imgurl +'" />';
+		_img.html(_imgsrc);
+		
+		
+	}, function(){
+		
+		
+	});
+	
+	
+});
+
+
+
+
+</script>
+</block>
+</body>
+</html>

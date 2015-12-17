@@ -1,0 +1,114 @@
+
+#moquu_top,#moquu_wxin,#moquu_wshare,#moquu_wmaps {
+	z-index:2;
+	width:50px;
+	height:50px;
+	right:10px;
+	position:fixed;
+	cursor:pointer;
+	_position:absolute;
+	_bottom:auto;
+	_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)))
+}
+
+#moquu_wxin {
+	top:360px;
+	_margin-top:360px
+}
+#moquu_wxin a {
+	background:url(../images/sbtn.png) 0 -0px;
+	right:0;
+	float:left;
+	width:50px;
+	height:50px;
+	text-indent:-9999px
+}
+#moquu_wxin a:hover {
+	background:url(../images/sbtn.png) -50px -0px
+}
+#moquu_wshare {
+	top:412px;
+	_margin-top:412px
+}
+#moquu_wshare a {
+	background:url(../images/sbtn.png) 0 -50px;
+	width:50px;
+	height:50px;
+	right:0;
+	float:left;
+	text-indent:-9999px
+}
+#moquu_wshare a:hover {
+	background:url(../images/sbtn.png) -50px -50px
+}
+#moquu_wmaps {
+	top:464px;
+	_margin-top:464px
+}
+#moquu_wmaps a {
+	background:url(../images/sbtn.png) 0 -150px;
+	width:50px;
+	height:50px;
+	right:0;
+	float:left;
+	text-indent:-9999px
+}
+#moquu_wmaps a:hover {
+	background:url(../images/sbtn.png) -50px -150px
+}
+#moquu_top {
+	top:516px;
+	_margin-top:516px;
+	background:url(../images/sbtn.png) 0 -101px;
+	width:50px;
+	height:50px
+}
+#moquu_top:hover {
+	background:url(../images/sbtn.png) -50px -101px
+}
+.moquu_wxin,.moquu_wshare {
+	position:relative;
+	z-index:2
+}
+.moquu_wxin a:hover .moquu_wxinh,.moquu_wshare a:hover .moquu_wshareh {
+	display:block
+}
+.moquu_wxin .moquu_wxinh {
+	position:absolute;
+	display:none;
+	left:-280px;
+	top:-200px;
+	width:275px;
+	height:355px;
+	background:url(../images/lrtk_weixin.png) 0 -2px no-repeat
+}
+.moquu_wshare .moquu_wshareh {
+	position:absolute;
+	display:none;
+	left:-280px;
+	top:-200px;
+	width:275px;
+	height:375px;
+	background:url(../images/lrtk_app.png?v=2015ss) no-repeat
+}
+
+.moquu_wshare .js-mobile-qrcode-imgbox{
+	width:254px;
+	height:254px;
+	margin:5px 0px 0px 3px;
+	border:1px solid #FFF;
+	background:#FFF;
+}
+.moquu_wshare .js-mobile-qrcode-imgbox img{ display:block; }
+
+.moquu_wshare .js-mobile-qrcode-imgbox img.js-qrcode-img{ 
+	width:254px;
+	height:254px; 
+}
+
+.moquu_wshare .js-mobile-qrcode-imgbox .js-img-loading{
+	width:154px;
+	height:154px;
+	margin:0 auto;
+	margin-top:40px;
+}

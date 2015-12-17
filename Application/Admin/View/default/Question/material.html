@@ -1,0 +1,362 @@
+<extend name="Common:main-page" />
+<block name="page-meta">
+  <title>试题管理</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content=""/>
+</block>
+<block name="page-header"></block>
+<block name="page-breadcrumb">
+<li>教学内容</li>
+<li class="active">资料题</li>
+</block>
+<block name="page-search"></block>
+<block name="page-navigation"></block>
+<block name="page-settings-container"></block>
+<block name="page-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="lighter row">
+        <form action="__MODULE__/Question/material" method="get">
+          <input type="hidden" name="serach" value="1" />
+          <div class="col-sm-2">
+            <div class="lighter row">
+              <div class="input-group col-sm-1">
+                <select name="class" style="width:160px;" class="form-control js-select-block" data-placeholder="选择一个知识点...">
+                  <option value="" style="font-weight:bold; color:#999;">查询所有知识点</option>
+                  <volist name="form_list" id="cls"> <option 
+                    <php>if($bigtype == $cls[id]){ echo 'selected="selected"'; }</php>
+                     value="{$cls.id}" style="font-weight:bold; color:#F00;">-{$cls.title}
+                    
+                    </option>
+                    <volist name="cls['list']" id="clss"> <option 
+                      <php>if($smalltype == $clss[id]){ echo 'selected="selected"'; }</php>
+                      
+                       value="{$cls.id},{$clss.id}" style="font-weight:bold; color:#966;">---{$clss.title}
+                      
+                      </option>
+                      <volist name="clss['list']" id="clsss"> <option 
+                        
+                        <php>if($pointtype == $clsss[id]){ echo 'selected="selected"'; }</php>
+                        
+                         value="{$cls.id},{$clss.id},{$clsss.id}">------{$clsss.title}
+                        
+                        </option>
+                      </volist>
+                    </volist>
+                  </volist>
+                </select>
+              </div>
+              <div class="col-sm-1">
+                <select style="width:80px;" class="form-control" name="field">
+                  <option <eq name="field" value="material"> selected="selected"</eq> value="body">材料</option>
+                  <option <eq name="field" value="id"> selected="selected" </eq> value="id">ID</option>
+                  <option <eq name="field" value="qyear"> selected="selected" </eq> value="qyear">年份</option>
+                  <option <eq name="field" value="status"> selected="selected" </eq> value="status">状态</option>
+                  <option <eq name="field" value="ismock"> selected="selected" </eq> value="ismock">题类别</option>
+                  <option <eq name="field" value="diff"> selected="selected" </eq> value="diff">难度</option>
+                  <option <eq name="field" value="chance"> selected="selected" </eq> value="chance">考频</option>
+                  <option <eq name="field" value="qnums"> selected="selected" </eq> value="qnums">子题数</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="input-group col-sm-6">
+            <input type="text" class="form-control" name="keyword" placeholder="请输入 '材料' 进行模糊查询" value="{$Think.get.keyword}">
+            <span class="input-group-btn">
+            <button type="submit" class="btn btn-danger btn-sm"> 搜索试题 <i class=" icon-leaf icon-on-right bigger-110"></i> </button>
+            </span> </div>
+          <div class="col-sm-2 js-msg-box"></div>
+        </form>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="btn-group pull-right">{$pagenav}</div>
+      </div>
+      <hr>
+      <table class="table table-striped table-hover table-bordered">
+        <thead>
+          <tr>
+            <th class="center" style="width:30px;"> <label>
+                <input type="checkbox" class="ace js-all-checkbox">
+                <span class="lbl"></span> </label>
+            </th>
+            <th style="width:60px;">编号</th>
+            <th>题目</th>
+            <th style="width:50px;">子题</th>
+            <th style="width:340px;">考点定位</th>
+            <th style="width:60px;">题类</th>
+            <th style="width:80px;">年份 <i class="icon-time bigger-110 hidden-480"></i></th>
+            <th style="width:80px;">难度/考频</th>
+            <th style="width:80px;">状态</th>
+            <th style="width:200px;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <volist name="list" id="qt">
+            <tr class="js-tr-li-box" dataid="{$qt.id}">
+              <td class="center"><label>
+                  <input type="checkbox" class="ace js-tr-checkbox" value="{$qt.id}">
+                  <span class="lbl"></span> </label></td>
+              <td>{$qt.id}</td>
+              <td><div class="slim-scroll" data-height="100" style="overflow: hidden; width: auto;">{$qt.material}</div>
+                <if condition="$qt.material_desc neq ''"><i class="icon-camera"></i></if></td>
+              <td><span class="label label-success arrowed-in-right">{$qt.qnums}</span></td>
+              <td><span class="label label-xlg label-grey arrowed arrowed-right">{$qt.bigtype|get_question_class_cols}</span><span class="label label-xlg label-light arrowed-in-right arrowed-in">{$qt.smalltype|get_question_class_cols}</span><span class="label label-xlg label-light arrowed-in-right arrowed"><abbr title="Phone">{$qt.pointtype|get_question_class_cols}</abbr></span></td>
+              <td><if condition="$qt.ismock eq 1 "> <span class="label arrowed">真题</span>
+                  <else />
+                  <span class="label label-danger arrowed">模拟</span> </if></td>
+              <td><span class="label arrowed">{$qt.qyear}</span></td>
+              <td><input type="text" value="{$qt.diff}" class="input-mini cls-spinner js-filed-diff" />
+                <input type="text" value="{$qt.chance}" class="input-mini cls-spinner js-filed-chance" /></td>
+              <td class="hidden-480"><label> <input 
+                  
+                  <eq name="qt.status" value="1"> checked="checked"</eq>
+                  class="ace ace-switch js-filed-status" type="checkbox" /><span class="lbl"></span> </label></td>
+              <td><div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+                  <button class="btn btn-xs btn-success js-btn-row-refresh"> <i class="icon-refresh bigger-120"></i> </button>
+                  <a href="__MODULE__/Question/material_form?id={$qt.id}" target="_blank" class="btn btn-xs btn-info"> <i class="icon-edit bigger-120"></i> </a>
+                  <a href="__MODULE__/Question/objective_form" target="_blank" class="btn btn-xs btn-danger"> <i class="icon-comments-alt bigger-120"></i> </a>
+                  <button class="btn btn-xs btn-warning"> <i class="icon-bar-chart bigger-120"></i> </button>
+                </div>
+                <div class="visible-xs visible-sm hidden-md">
+                  <div class="inline position-relative">
+                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"> <i class="icon-cog icon-only bigger-110"></i> </button>
+                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                      <li> <a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View"> <span class="blue"> <i class="icon-zoom-in bigger-120"></i> </span> </a> </li>
+                      <li> <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit"> <span class="green"> <i class="icon-edit bigger-120"></i> </span> </a> </li>
+                      <li> <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete"> <span class="red"> <i class="icon-trash bigger-120"></i> </span> </a> </li>
+                    </ul>
+                  </div>
+                </div></td>
+            </tr>
+          </volist>
+        </tbody>
+        <tr>
+          <th class="center" style="width:30px;"> <label>
+              <input type="checkbox" class="ace js-all-checkbox">
+              <span class="lbl"></span> </label>
+          </th>
+          <th style="width:60px;">批量<br />操作</th>
+          <th> <select name="class" style="width:150px;" class="form-control js-all-execute col-xs-12 col-lg-6">
+              <option value="">选择一个操作</option>
+              <option value="class" data-filed="class">设置知识点分类</option>
+              <option value="switch" data-filed="status" data-obj="switch" data-input="checkbox">设置状态</option>
+              <option value="spinner" data-filed="diff" data-obj="spinner">设置难度</option>
+              <option value="spinner" data-filed="chance" data-obj="spinner">设置考频</option>
+              <option value="qyear" data-filed="qyear">设置年份</option>
+              <option value="ismock" data-filed="ismock">设置题类</option>
+              <option value="delete" data-filed="delete">设置删除</option>
+            </select>
+           
+            <select name="class" style="width:160px; display:none;" class="form-control js-all-exe-box js-all-exe-class" data-placeholder="选择一个知识点...">
+              <option value="" style="font-weight:bold; color:#999;">选择一个知识点</option>
+              <volist name="form_list" id="cls"> <option 
+                
+                <eq name="bigtype" value="cls.id"> selected="selected"</eq>
+                
+                 value="{$cls.id}" style="font-weight:bold; color:#F00;">-{$cls.title}
+                
+                </option>
+                <volist name="cls['list']" id="clss"> <option 
+                  
+                  <eq name="smalltype" value="clss.id"> selected="selected"</eq>
+                  
+                   value="{$cls.id},{$clss.id}" style="font-weight:bold; color:#966;">---{$clss.title}
+                  
+                  </option>
+                  <volist name="clss['list']" id="clsss"> <option 
+                    
+                    <eq name="pointtype" value="clsss.id"> selected="selected"</eq>
+                    
+                     value="{$cls.id},{$clss.id},{$clsss.id}">------{$clsss.title}
+                    
+                    </option>
+                  </volist>
+                </volist>
+              </volist>
+            </select>
+            
+            <input type="text" style="display:none;" class="col-xs-3 js-all-exe-box js-all-exe-qyear" name="qyear" placeholder="如： 2013,2014">
+            
+            <select class="js-all-exe-box js-all-exe-ismock" style="width:120px; display:none;">
+              <option value="">选择试题类别</option>
+              <option value="1">真题</option>
+              <option value="0">模拟</option>
+            </select>
+            
+            <label style="display:none;" class="js-all-exe-box js-all-exe-spinner"><input type="text" class="input-mini cls-spinner js-all-data-spinner"  /></label>
+            
+            <label style="display:none;" class="js-all-exe-box js-all-exe-switch"><input class="ace ace-switch js-all-data-switch" type="checkbox" /><span class="lbl"></span> </label>
+             
+            <br /><br />
+            <button style="display:none;" class="btn btn-danger js-all-exe-box js-all-exe-submit">执行操作</button>
+            
+            <span class="js-all-exe-loading" style="display:none;"><i class="icon-spinner icon-spin orange bigger-125"></i> <span class="js-text">正在努力加载...</span></span>
+            
+          </th>
+          <th style="width:50px;">答案</th>
+          <th style="width:340px;">考点定位</th>
+          <th style="width:60px;">题类</th>
+          <th style="width:80px;">年份 <i class="icon-time bigger-110 hidden-480"></i></th>
+          <th style="width:80px;">难度</th>
+          <th style="width:80px;">状态</th>
+          <th style="width:200px;">Action</th>
+        </tr>
+      </table>
+      <div class="row">
+        <div class="btn-group pull-right">{$pagenav}</div>
+      </div>
+      <hr />
+    </div>
+    <!-- /.col --> 
+  </div>
+  <!-- /.row --> 
+  
+</block>
+<block name="page-footer">
+  <js href="__BOOTSTRAP__js/fuelux/fuelux.spinner.min.js" />
+  <js href="__BOOTSTRAP__js/jquery.slimscroll.min.js" />
+
+  <script language="javascript">
+
+$('.cls-spinner').ace_spinner({value:0,min:0,step:1, btn_up_class:'btn-info', btn_down_class:'btn-info'})
+.on('change', function(){
+					
+});
+
+$('[data-rel=tooltip]').tooltip();
+
+// scrollables
+$('.slim-scroll').each(function () {
+	var $this = $(this);
+	$this.slimScroll({
+		height: $this.data('height') || 100,
+		railVisible:true
+	});
+});
+
+
+
+//更新按钮
+$('.js-btn-row-refresh').click(function(){
+	
+	var tr		= $(this).parents('.js-tr-li-box');
+	var dataid	= tr.attr('dataid');
+	var diff	= tr.find('.js-filed-diff').val();
+	var chance	= tr.find('.js-filed-chance').val();
+	var status	= (tr.find('.js-filed-status').prop("checked")) ? 1 : 0;
+	
+	var data	= 'diff='+diff+'&status='+status+'&chance=' + chance+'&id=' + dataid + '&module=question_material';
+	ajaxSend('__MODULE__/Question/question_update_filed', data, function(json){
+		
+		
+		
+	}, function(err){});
+});
+
+
+//全选
+$('.js-all-checkbox').click(function(){
+	
+	var check	= $(this).prop('checked');
+	var box	= $(this).parents('.table');
+		box.find('.js-tr-checkbox').prop('checked', check);
+	
+	$('.js-all-checkbox').prop('checked', check);
+});
+
+//选择一个操作
+$('.js-all-execute').change(function(){
+	
+	//获得一个操作
+	var obj		= $(this).val();
+	
+	//显示相应的操作控件
+	$('.js-all-exe-box').hide();
+	
+	if(!obj) return false;
+	$('.js-all-exe-' + obj).show();
+	
+	//显示执行按钮
+	$('.js-all-exe-submit').fadeIn('slow');
+});
+
+//执行批量操作
+$('.js-all-exe-submit').click(function(){
+
+	var ids		= get_all_checkbox();
+	if(ids.length == 0){
+		alert('没有选择任何记录');
+		return false;	
+	}
+	
+	var allbtn	= $('.js-all-execute');
+	var exc		= allbtn.find('option:selected');
+	var obj		= exc.attr('value');
+	var filed	= exc.attr('data-filed');
+	//alert(filed);
+	
+	var value	= '', isform = 0;
+	if($.inArray(filed, ['delete']) == -1){
+		
+		isform	= 1;
+		
+		//数据对象
+		var dataobj	= exc.attr('data-obj');
+		if(dataobj){
+			dataobj	= '.js-all-data-' + dataobj;
+		}else{
+			dataobj	= '.js-all-exe-' + obj;
+		}
+		//alert('dataobj:' + dataobj);
+		
+		//控件类型
+		var input	= exc.attr('data-input');
+		//alert('input:' + input);
+		if(input){
+			if(input == 'checkbox') value	= ($(dataobj).prop('checked')) ? 1 : 0;
+			
+		}else{
+			value	= $(dataobj).val();
+		}
+	}
+
+	//没有设定操作值
+	if(isform === 1 && value === ''){
+		alert('请选择或设置一个批量操作的值');
+		return false;	
+	}
+	
+	var btn		= $(this);
+		btn.hide();
+	var loading = $('.js-all-exe-loading');
+		loading.show();
+	var data	= 'filed=' + filed + '&value=' + value + '&ids=' + ids.join(',') + '&module=question_material';
+	ajaxSend('__MODULE__/Question/question_update_fileds', data, function(json){
+		
+		loading.find('.js-text').html(json.msg);
+		setTimeout(function(){ loading.find('.js-text').html('正在努力加载...'); loading.hide(); }, 2000);
+		
+		$('.js-all-exe-box').hide();
+		
+		if(json.status == 1){
+			btn.hide();
+		}
+		
+	}, function(err){});
+	
+});
+
+
+//获得checkbox选择的值
+function get_all_checkbox(){
+	
+	var ids	= [];
+	$('.js-tr-checkbox').each(function(index, element) {
+        if($(this).prop('checked')) ids.push($(this).val());
+    });
+	
+	return ids;
+}
+</script> 
+</block>

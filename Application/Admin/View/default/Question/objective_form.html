@@ -1,0 +1,319 @@
+<extend name="Common:main-page" />
+<block name="page-meta">
+  <title>试题维护</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content=""/>
+</block>
+<block name="page-header">
+
+<js file="__UEDITOR__ueditor.config.js"/>
+<js file="__UEDITOR__ueditor.all.min.js"/>
+<script>
+var ueditor_config	= {
+		
+		////默认的编辑区域高度
+		initialFrameHeight:150,
+		
+		//这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+        //toolbars:[['FullScreen', 'Source', 'Undo', 'Redo','Bold','test']],  	
+};
+</script>
+
+</block>
+<block name="page-breadcrumb">
+
+<li>教学内容</li>
+<li><a href="__MODULE__/Question/objective">客观题</a></li>
+<li class="active">试题维护</li>
+</block>
+<block name="page-search"></block>
+<block name="page-navigation"></block>
+<block name="page-settings-container"></block>
+<block name="page-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+          <li class="active"> <a data-toggle="tab" href="#home"> <i class="green icon-home bigger-110"></i> 试题主体 </a> </li>
+          <if condition="$info.materialid neq 0"><li> <a href="__MODULE__/Question/material_form?id={$info.materialid}" target="_blank"> <i class="green icon-external-link bigger-110"></i> 修改资料 </a> </li></if>
+          <li> <a href="__MODULE__/Question/objective_ask?id={$Think.get.id}"> 试题咨询 <span class="badge badge-danger">4</span> </a> </li>
+          <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> 智能教学 &nbsp; <i class="icon-caret-down bigger-110 width-auto"></i> </a>
+            <ul class="dropdown-menu dropdown-info">
+              <li> <a data-toggle="tab" href="#dropdown1">@趣味奖励</a> </li>
+              <li> <a data-toggle="tab" href="#dropdown2">@典型错误</a> </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div id="home" class="tab-pane in active"> 
+          
+          {$info.body1|htmlspecialchars_decode}<br>
+          
+          A.<php>echo $info[options][0][text];</php>
+          B.<php>echo $info[options][1][text];</php><br>
+          C.<php>echo $info[options][2][text];</php>
+          D.<php>echo $info[options][3][text];</php><br>
+          
+          正确答案：{$info.answer}<br>
+          {$info.description1|htmlspecialchars_decode}<br>
+          
+          
+          <form>
+  			<if condition="$info.id neq 0"><input type="hidden" value="{$info.id}" name="id" /></if>
+            <script type="text/plain" id="body-{$info.id}">
+			<if condition="$info.body neq ''">{$info.body|htmlspecialchars_decode}<else />试题题干（图文并茂）</if>
+            </script>
+            <script>
+			ueditor_config.textarea	= 'body';
+			var ue = UE.getEditor('body-{$info.id}', ueditor_config);
+            </script>
+            <br />
+            <div class="widget-box transparent">
+              <div class="widget-header widget-header-flat">
+                <h4 class="lighter"> <i class="icon-circle-blank orange"></i> 选项(Options) </h4>
+                <div class="widget-toolbar"> <a href="#" data-action="collapse"> <i class="icon-chevron-up"></i> </a> </div>
+              </div>
+              <div class="widget-body"> <br />
+                <div class="row">
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">A</i></span>
+                      <input class="form-control" name="opts-a" type="text" value="<php>echo $info[options][0][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">B</i></span>
+                      <input class="form-control" name="opts-b" type="text" value="<php>echo $info[options][1][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">C</i></span>
+                      <input class="form-control" name="opts-c" type="text" value="<php>echo $info[options][2][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">D</i></span>
+                      <input class="form-control" name="opts-d" type="text" value="<php>echo $info[options][3][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">E</i></span>
+                      <input class="form-control" name="opts-e" type="text" value="<php>echo $info[options][4][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group"><span class="input-group-addon"><i class="">F</i></span>
+                      <input class="form-control" name="opts-f" type="text" value="<php>echo $info[options][5][text];</php>">
+                    </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group pull-right" style="width:200px;"> <span class="input-group-addon"><i class="">单选</i></span>
+                      <input value="{$info.answer}" name="answer" class="form-control input-mask-phone" type="text" id="form-field-mask-2">
+                      <span class="input-group-addon btn-success"><i class="">正确答案</i></span> </div>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="input-group pull-right" style="width:200px;"> <span class="input-group-addon"><i class="icon-warning-sign red"></i></span>
+                      <input value="{$info.wrongans}" name="wrongans" class="form-control" type="text">
+                      <span class="input-group-addon btn-danger"><i class="">高频错选</i></span> </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="widget-box transparent">
+              <div class="widget-header widget-header-flat">
+                <h4 class="lighter"> <i class="icon-book orange"></i> 解析(Description) </h4>
+                <div class="widget-toolbar"> <a href="#" data-action="collapse"> <i class="icon-chevron-up"></i> </a> </div>
+              </div>
+              <div class="widget-body"> 
+                <script type="text/plain" id="description-{$info.id}">
+				<if condition="$info.description neq ''">{$info.description|htmlspecialchars_decode}<else />试题解析（图文并茂）</if></script>
+				<script>
+				ueditor_config.textarea	= 'description';
+				var ue = UE.getEditor('description-{$info.id}', ueditor_config);
+                </script>
+              </div>
+            </div>
+            <br />
+            <div class="widget-box transparent">
+              <div class="widget-header widget-header-flat">
+                <h4 class="lighter"> <i class="icon-cog orange"></i> 标签(Lable) </h4>
+                <div class="widget-toolbar"> <a href="#" data-action="collapse"> <i class="icon-chevron-up"></i> </a> </div>
+              </div>
+              <div class="widget-body"> <br />
+                <div class="row">
+                  <div class="col-xs-3">
+                    <select class="form-control" name="ismock">
+                      <option value="{$info.ismock}">真题 或 模拟...</option>
+                      <option value="1"
+                      <eq name="info.ismock" value="1"> selected="selected"</eq>
+                      >真题
+                      </option>
+                      <option value="0"
+                      <eq name="info.ismock" value="0"> selected="selected"</eq>
+                      >模拟
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <select class="form-control" name="bigtype">
+                      <option value="0" style="font-weight:bold; color:#999;">选择一个根知识点</option>
+                      <volist name="info.form_list1" id="cls"> <option 
+                        <eq name="info.bigtype" value="$cls.id"> selected="selected"</eq> 
+                         value="{$cls.id}" style="font-weight:bold; color:#F00;" data-topid="{$cls.topid}">&nbsp;&nbsp;{$cls.title}
+                    
+                        </option>
+                        <volist name="cls['list']" id="clss">
+                          <option value="{$clss.id}" style="display:none;" data-topid="{$clss.topid}">&nbsp;&nbsp;&nbsp;&nbsp;{$clss.title}</option>
+                          <volist name="clss['list']" id="clsss">
+                            <option value="{$clsss.id}" style="display:none;" data-topid="{$clsss.topid}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$clsss.title}</option>
+                          </volist>
+                        </volist>
+                      </volist>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <select class="form-control" name="smalltype">
+                      <option value="0">二级根知识点</option>
+                      <volist name="info.form_list2" id="cls">
+                        <volist name="cls['list']" id="clss"> <option value="{$clss.id}"
+                          <eq name="info.smalltype" value="$clss.id"> selected="selected"</eq>
+                          >&nbsp;&nbsp;&nbsp;&nbsp;{$clss.title}
+                          </option>
+                        </volist>
+                      </volist>
+                    </select>
+                  </div>
+                  <div class="col-xs-3">
+                    <select class="form-control" name="pointtype">
+                      <option value="0">三级根知识点</option>
+                      <volist name="info.form_list3" id="cls">
+                        <volist name="cls['list']" id="clss"> <option value="{$clss.id}"
+                          <eq name="info.pointtype" value="$clss.id"> selected="selected"</eq>
+                          >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$clss.title}
+                          </option>
+                        </volist>
+                      </volist>
+                    </select>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-xs-3">
+                    <div class="input-group"> <span class="input-group-addon"><i class="">年份</i></span>
+                      <input class="form-control" value="{$info.qyear}" name="qyear" type="text" placeholder="如：2013">
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <div class="input-group"> <span class="input-group-addon"><i class="">难度(0-5)</i></span>
+                      <input class="form-control" value="{$info.diff}" name="diff" type="text" placeholder="(0-5)">
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <div class="input-group"> <span class="input-group-addon"><i class="">考频(0-5)</i></span>
+                      <input class="form-control" value="{$info.chance}" name="chance" type="text" placeholder="(0-5)">
+                    </div>
+                  </div>
+                  <div class="col-xs-3">
+                    <div class="input-group"> <span class="input-group-addon"><i class="">状态</i></span>
+                      <input class="form-control" value="{$info.status}" name="status" type="text" placeholder="(0-1)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix form-actions">
+              <div class="col-md-offset-3 col-md-9">
+                <button class="btn btn-info js-btn-form-submit" type="button"> <i class="icon-ok bigger-110"></i> Submit </button>
+                &nbsp; &nbsp; &nbsp;
+                <button class="btn" type="reset"> <i class="icon-undo bigger-110"></i> Reset </button>
+              </div>
+            </div>
+            </form>
+          </div>
+          <div id="profile" class="tab-pane">
+            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+          </div>
+          <div id="dropdown1" class="tab-pane">
+            <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+          </div>
+          <div id="dropdown2" class="tab-pane">
+            <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.col --> 
+  </div>
+  <!-- /.row --> 
+</block>
+<block name="page-footer">
+
+<script language="javascript">
+
+$('.js-btn-form-submit').click(function(){
+	
+	var oform	= $(this).parents('form');
+		
+	var data	= oform.serialize();
+	ajaxSend('__MODULE__/Question/objective_save', data, function(json){
+		
+		dialog({
+			title: '操作提示',
+			content: json.msg,
+			cancel: false,
+    		ok: function () {}
+		})
+		.width(320)
+		.show();
+		
+	});
+});
+
+
+//根知识点
+$('select[name=bigtype]').change(function(){
+	
+	var oform	= $(this).parents('form');
+	
+	//操作第二级下拉
+	var topid	= $(this).val();
+	var osmall	= oform.find('select[name=smalltype]');
+
+	var html	= get_class_topid_sonlist($(this), topid);
+		osmall.html(html).find('option').show();	
+	
+	//触发第二级事件
+	osmall.change();
+});
+
+
+//二级知识点
+$('select[name=smalltype]').change(function(){
+	
+	var oform	= $(this).parents('form');
+	
+	//根节点数
+	var root	= oform.find('select[name=bigtype]');
+	
+	//操作第三级下拉
+	var topid	= $(this).val();
+	var opoint	= oform.find('select[name=pointtype]');
+	var html	= get_class_topid_sonlist(root, topid);
+		opoint.html(html).find('option').show();
+});
+
+
+
+/**
+ * 根据父级主键 从一个select->option->获得直接子级列表
+ * 
+ * @param   obj    $root      列表对象
+ * @param   int    $tipid     主键
+ * @return  html->(option)
+ */
+function get_class_topid_sonlist(root, topid){
+	return root.find('option[data-topid='+topid+']').clone();
+}
+
+</script> 
+</block>

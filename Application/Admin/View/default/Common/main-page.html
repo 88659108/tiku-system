@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8" />
+        <block name="page-meta">
+		<title>{$web_title}</title>
+		<meta name="keywords" content="Bootstrap模版,Bootstrap模版下载,Bootstrap教程,Bootstrap中文" />
+		<meta name="description" content="站长素材提供Bootstrap模版,Bootstrap教程,Bootstrap中文翻译等相关Bootstrap插件下载" />
+		</block>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+		<link href="__BOOTSTRAP__css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="__BOOTSTRAP__css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="__BOOTSTRAP__css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		<!-- page specific plugin styles -->
+
+		<!-- fonts -->
+		<!--link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /-->
+
+		<!-- ace styles -->
+		<link rel="stylesheet" href="__BOOTSTRAP__css/ace.min.css" />
+		<link rel="stylesheet" href="__BOOTSTRAP__css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="__BOOTSTRAP__css/ace-skins.min.css" />
+        
+        <link rel="stylesheet" href="__PUBLIC__artDialog6/css/ui-dialog.css">
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="__BOOTSTRAP__css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="__BOOTSTRAP__js/ace-extra.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="__BOOTSTRAP__js/html5shiv.js"></script>
+		<script src="__BOOTSTRAP__js/respond.min.js"></script>
+		<![endif]-->
+        
+        <block name="page-header"></block>
+	</head>
+
+	<body class="navbar-fixed breadcrumbs-fixed">
+		<div class="navbar navbar-default navbar-fixed-top" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<small>
+							<i class="icon-leaf"></i>
+							{$Think.config.system-title}
+						</small>
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
+				
+                <include file="Common:main-navigation" />
+                
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<include file="Common:main-sidebar" />
+
+				<div class="main-content">
+					<div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="javascript:void(0);">控制台</a>
+							</li>
+                            
+							<block name="page-breadcrumb"></block>
+						</ul><!-- .breadcrumb -->
+
+						<include file="Common:main-search" />
+					</div>
+
+					<div class="page-content">
+                    	<block name="page-content">
+						<div class="row">
+							<div class="col-xs-12"></div>
+                            <!-- /.col -->
+						</div><!-- /.row -->
+                        </block>
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+				<include file="Common:main-settings-container" />
+                
+			</div><!-- /.main-container-inner -->
+
+			<a href="javascript:void(0);" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+		<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script-->
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+        <!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+        <![endif]-->
+
+		<!--[if !IE]> -->
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='__BOOTSTRAP__js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+        <script type="text/javascript">
+         window.jQuery || document.write("<script src='__BOOTSTRAP__js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+        </script>
+        <![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='__BOOTSTRAP__js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="__BOOTSTRAP__js/bootstrap.min.js"></script>
+		<script src="__BOOTSTRAP__js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+		<script src="__PUBLIC__artDialog6/dist/dialog-min.js"></script>
+
+		<!-- ace scripts -->
+		<script src="__BOOTSTRAP__js/ace-elements.min.js"></script>
+		<script src="__BOOTSTRAP__js/ace.min.js"></script>
+        
+        <!-- common functions -->
+        <script src="__JS__common.js"></script>
+        
+        <script language="javascript">
+        
+/**
+ * 全局公用 请求函数
+ *
+ * @param  string    action    请求地址
+ * @param  string    data      发送的数据
+ * @param  function  success   成功,回调函数
+ * @param  function  success   失败,回调函数
+ * @param  json      params    更多配置参数 
+ */
+function ajaxSend(action, data, success, error, params){
+	
+	var config = {url: action, dataType:'json',type: "POST",data:data,success:success,error:error,cache:false};
+	for(var x in params){config[x] = param[x];}
+	$.ajax(config);
+}
+        
+        </script>
+        <block name="page-footer"></block>
+</body>
+</html>
